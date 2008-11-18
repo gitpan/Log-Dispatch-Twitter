@@ -1,0 +1,8 @@
+LICENSE
+MANIFEST
+META.yml
+Makefile.PL
+README
+lib/Log/Dispatch/Twitter.pm
+t/001-load.t
+t/002-log.t

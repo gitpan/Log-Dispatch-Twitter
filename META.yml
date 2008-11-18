@@ -1,0 +1,11 @@
+--- 
+abstract: Log messages via Twitter
+author: 
+  - Shawn M Moore <sartak@bestpractical.com>
+generated_by: Dist::Zilla::Plugin::MetaYaml version 1.003
+license: perl
+name: Log-Dispatch-Twitter
+requires: 
+  Log::Dispatch: 2.22
+  Net::Twitter: 1.17
+version: 0.01
