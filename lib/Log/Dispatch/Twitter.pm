@@ -1,10 +1,12 @@
 #!/usr/bin/env perl
 package Log::Dispatch::Twitter;
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use strict;
 use warnings;
 use base 'Log::Dispatch::Output';
+
+use Net::Twitter;
 
 sub new {
     my $class = shift;
@@ -59,7 +61,7 @@ Log::Dispatch::Twitter - Log messages via Twitter
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =head1 SYNOPSIS
 
