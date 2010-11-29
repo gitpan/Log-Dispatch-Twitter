@@ -1,10 +1,10 @@
-#!/usr/bin/env perl
 package Log::Dispatch::Twitter;
-our $VERSION = '0.02';
-
 use strict;
 use warnings;
+use 5.008001;
 use base 'Log::Dispatch::Output';
+
+our $VERSION = 0.03;
 
 use Net::Twitter;
 
@@ -22,8 +22,16 @@ sub _init {
     my $self = shift;
     my %args = @_;
 
-    $self->{username} = $args{username};
-    $self->{password} = $args{password};
+    # Remove Log::Dispatch::Output constructor args
+    delete @args{qw{
+        name
+        min_level
+        max_level
+        callbacks
+        newline
+    }};
+
+    $self->{args} = \%args;
 }
 
 sub log_message {
@@ -43,10 +51,7 @@ sub _post_message {
     my $self    = shift;
     my $message = shift;
 
-    my $twitter = Net::Twitter->new(
-        username  => $self->{username},
-        password  => $self->{password},
-    );
+    my $twitter = Net::Twitter->new(%{ $self->{args} });
 
     $twitter->update($message);
 }
@@ -59,10 +64,6 @@ __END__
 
 Log::Dispatch::Twitter - Log messages via Twitter
 
-=head1 VERSION
-
-version 0.02
-
 =head1 SYNOPSIS
 
     use Log::Dispatch;
@@ -71,10 +72,16 @@ version 0.02
     my $logger = Log::Dispatch->new;
 
     $logger->add(Log::Dispatch::Twitter->new(
+
         username  => "foo",
         password  => "bar",
-        min_level => "debug",
-        name      => "twitter",
+
+        # Net::Twitter args
+        traits              => [qw/OAuth API::REST/],
+        consumer_key        => $consumer_key,
+        consumer_secret     => $consumer_secret,
+        access_token        => $token,
+        access_token_secret => $token_secret,
     ));
 
     $logger->log(
@@ -86,4 +93,16 @@ version 0.02
 
 Twitter is a presence tracking site. Why not track your program's presence?
 
+=head1 AUTHOR
+
+Shawn M Moore, C<sartak@gmail.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2008-2010 Shawn M Moore.
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
 =cut
+

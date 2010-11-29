@@ -1,19 +1,14 @@
+# Load the Module::Install bundled in ./inc/
+use inc::Module::Install;
+use Module::Install::GithubMeta;
 
-use strict;
-use warnings;
+# Define metadata
+name     'Log-Dispatch-Twitter';
+all_from 'lib/Log/Dispatch/Twitter.pm';
+githubmeta;
 
-use ExtUtils::MakeMaker;
+requires 'Log::Dispatch' => 2.22;
+requires 'Net::Twitter'  => 1.17;
 
-WriteMakefile(
-  DISTNAME  => 'Log-Dispatch-Twitter',
-  NAME      => 'Log::Dispatch::Twitter',
-  AUTHOR    => 'Shawn\ M\ Moore\ \<sartak\@bestpractical\.com\>',
-  ABSTRACT  => 'Log messages via Twitter',
-  VERSION   => '0.02',
-  EXE_FILES => [ qw() ],
-  (eval { ExtUtils::MakeMaker->VERSION(6.21) } ? (LICENSE => 'perl') : ()),
-  PREREQ_PM    => {
-    "Log::Dispatch" => '2.22',
-    "Net::Twitter" => '1.17',
-  },
-);
+WriteAll;
+
